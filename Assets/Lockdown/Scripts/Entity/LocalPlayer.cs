@@ -59,6 +59,18 @@ namespace Lockdown.Game.Entity
                 PhotonView photonView = PhotonView.Get(this);
                 photonView.RPC(nameof(ConsumeFood), RpcTarget.All);
             }
+            else
+            {
+                           
+                Enemy enemy = other.transform.GetComponent<Enemy>();
+                // check if collided object is enemy, and destroy
+                if (enemy != null)
+                {
+                    // consume food
+                    PhotonNetwork.Destroy(enemy.gameObject);
+                } 
+            }
+
         }
     }
 }

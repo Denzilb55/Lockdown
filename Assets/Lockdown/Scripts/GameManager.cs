@@ -17,10 +17,17 @@ namespace Lockdown.Game
         [SerializeField]
         private Food _foodPrefab;
         
-       
+        [SerializeField]
+        private BaseBuilding _basePrefab;
+        
+        [SerializeField]
+        private Enemy _enemyPrefab;
+
+        
         
         private void Awake()
         {
+
             NetworkModule.Instance.OnReady += () =>
             {
                 GameObject localPlayer = PhotonNetwork.Instantiate(_playerPrefab.name, new Vector3(Random.Range(-3, 3),Random.Range(-3, 3),0f), Quaternion.identity, 0);
@@ -33,10 +40,11 @@ namespace Lockdown.Game
                 localPlayer.AddComponent<LocalPlayer>();
                 
                 FoodModule.Instance.Init(_foodPrefab);
+                BaseModule.Instance.Init(_basePrefab);
+                EnemyManagerModule.Instance.Init(_enemyPrefab);
+                FoodModule.Instance.Init(_foodPrefab);
             };
-            
-            
-            FoodModule.Instance.Init(_foodPrefab);
+
         }
         
     }

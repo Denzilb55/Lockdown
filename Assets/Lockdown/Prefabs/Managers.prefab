@@ -45,6 +45,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerPrefab: {fileID: 6212283936107461853, guid: 78a23aad1a93936d798728b0e3ac7ee3,
     type: 3}
+  _foodPrefab: {fileID: 1022802173683290134, guid: e58bbe1527250425eb8ae3d86052109b,
+    type: 3}
+  _basePrefab: {fileID: 460713442856266222, guid: 398e2e63434fa7c419118cc32eb6c38c,
+    type: 3}
+  _enemyPrefab: {fileID: 3374981424703341966, guid: ee8cf9e4b757ccb9b947646fb1211a21,
+    type: 3}
 --- !u!1 &5253890934592195063
 GameObject:
   m_ObjectHideFlags: 0

@@ -37,6 +37,14 @@ namespace Lockdown.Game
                 InvokeRepeating(nameof(SpawnFood), 0.5f, 2);
             }
         }
+
+        public void DestroyFood(Food food)
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                _foods.Remove(food);
+            }
+        }
         
         void SpawnFood()
         {

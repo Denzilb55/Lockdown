@@ -1,3 +1,4 @@
+using Photon.Pun;
 using UnityEngine;
 
 namespace Lockdown.Game.Entity
@@ -9,6 +10,15 @@ namespace Lockdown.Game.Entity
     /// </summary>
     public abstract class Player : Entity
     {
+        public int foodConsumed;
         
+        [PunRPC]
+        public void ConsumeFood()
+        {
+            Debug.Log("PLAYER CONSUMED FOOD");
+            
+            // Not synced properly for new players?
+            foodConsumed++;
+        }
     }
 }

@@ -1,3 +1,5 @@
+using System;
+using Photon.Pun;
 using UnityEngine;
 
 namespace Lockdown.Game.Entity
@@ -8,26 +10,54 @@ namespace Lockdown.Game.Entity
     /// </summary>
     public class LocalPlayer : Player
     {
+        private Vector2 _moveDir;
+        private Rigidbody2D _body;
+
+        private void Start()
+        {
+            _body = GetComponent<Rigidbody2D>();
+        }
+
         private void Update()
         {
+            _moveDir = Vector2.zero;
             if (Input.GetKey(KeyCode.W))
             {
-                transform.Translate(0, Time.deltaTime, 0);
+                _moveDir += Vector2.up;
             }
             
             if (Input.GetKey(KeyCode.A))
             {
-                transform.Translate(-Time.deltaTime, 0, 0);
+                _moveDir += Vector2.left;
             }
             
             if (Input.GetKey(KeyCode.S))
             {
-                transform.Translate(0, -Time.deltaTime, 0);
+                _moveDir += Vector2.down;
             }
             
             if (Input.GetKey(KeyCode.D))
             {
-                transform.Translate(Time.deltaTime, 0, 0);
+                _moveDir += Vector2.right;
+            }
+        }
+
+        private void FixedUpdate()
+        {
+            _body.velocity = _moveDir;
+        }
+
+        private void OnCollisionEnter2D(Collision2D other)
+        {
+            Food food = other.transform.GetComponent<Food>();
+            // check if collided object is food, and consume
+            Debug.Log("Collide: " + other);
+            if (food != null)
+            {
+                // consume food
+                Destroy(food.gameObject);
+                PhotonView photonView = PhotonView.Get(this);
+                photonView.RPC(nameof(ConsumeFood), RpcTarget.All);
             }
         }
     }

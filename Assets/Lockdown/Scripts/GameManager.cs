@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Lockdown.Game.Entity;
 using Photon.Pun;
 using UnityEngine;
@@ -13,6 +14,11 @@ namespace Lockdown.Game
         [SerializeField]
         private NetworkPlayer _playerPrefab;
         
+        [SerializeField]
+        private Food _foodPrefab;
+        
+       
+        
         private void Awake()
         {
             NetworkModule.Instance.OnReady += () =>
@@ -25,7 +31,13 @@ namespace Lockdown.Game
                 
                 // Add the local player component so that you can control it
                 localPlayer.AddComponent<LocalPlayer>();
+                
+                FoodModule.Instance.Init(_foodPrefab);
             };
+            
+            
+            FoodModule.Instance.Init(_foodPrefab);
         }
+        
     }
 }

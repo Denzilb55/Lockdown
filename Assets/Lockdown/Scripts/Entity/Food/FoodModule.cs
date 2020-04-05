@@ -21,6 +21,11 @@ namespace Lockdown.Game
             if (PhotonNetwork.IsMasterClient)
             {
                 StartSpawnRepeating(2, () => new Vector2(Random.Range(-6f, 6f), Random.Range(-6f, 6f)));
+
+                for (int i = 0; i < 50; i++)
+                {
+                    CreateManagedObject(new Vector2(Random.Range(-6f, 6f), Random.Range(-6f, 6f)));
+                }
             }
         }
         

@@ -3,12 +3,12 @@ using Photon.Pun;
 using UnityEngine;
 
 
-namespace Lockdown.Game.Entity
+namespace Lockdown.Game.Entities
 {
     /// <summary>
     /// A basic entity class, which will represent AI, player-controlled and networked agents.
     /// </summary>
-    public abstract class Entity : MonoBehaviour
+    public abstract class Entity: MonoBehaviour
     {
         public void NetworkDestroy()
         {

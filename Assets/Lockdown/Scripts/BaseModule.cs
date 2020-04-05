@@ -1,4 +1,4 @@
-using Lockdown.Game.Entity;
+using Lockdown.Game.Entities;
 using Photon.Pun;
 
 

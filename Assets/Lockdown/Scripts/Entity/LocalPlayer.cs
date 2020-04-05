@@ -1,8 +1,9 @@
 using System;
+using Lockdown.Game.Tribes;
 using Photon.Pun;
 using UnityEngine;
 
-namespace Lockdown.Game.Entity
+namespace Lockdown.Game.Entities
 {
     /// <summary>
     /// The local player is "You" or any people sitting next to you if this turns out to have
@@ -62,9 +63,9 @@ namespace Lockdown.Game.Entity
             else
             {
                            
-                Enemy enemy = other.transform.GetComponent<Enemy>();
+                Tribesman enemy = other.transform.GetComponent<Tribesman>();
                 // check if collided object is enemy, and destroy
-                if (enemy != null)
+                if (enemy != null && enemy.tribe != TribeManagerModule.Instance.MainTribe)
                 {
                     enemy.NetworkDestroy();
                 } 

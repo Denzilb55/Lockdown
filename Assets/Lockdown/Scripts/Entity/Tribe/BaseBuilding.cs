@@ -2,20 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Lockdown.Game.Entity
+namespace Lockdown.Game.Entities
 {
     public class BaseBuilding : Entity
     {
-        // Start is called before the first frame update
-        void Start()
+        private void OnDestroy()
         {
-
+            BaseModule.Instance.DeRegisterEntity(this);
         }
 
-        // Update is called once per frame
-        void Update()
-        {
 
+        private void Awake()
+        {
+            BaseModule.Instance.RegisterEntity(this);
         }
     }
 }

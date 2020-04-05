@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Lockdown.Game.Entities;
 using Photon.Pun;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ namespace Lockdown.Game
     /// <typeparam name="TModule"></typeparam>
     /// <typeparam name="TEntity"></typeparam>
     public class EntityManagementModule<TModule, TEntity> : ManagementModule<TModule, TEntity>
-        where TEntity : Entity.Entity where TModule : EntityManagementModule<TModule, TEntity>
+        where TEntity : Entity where TModule : EntityManagementModule<TModule, TEntity>
     {
         /// <summary>
         /// The prefab that will be duplicated when new entities are instantiated.
@@ -37,8 +38,17 @@ namespace Lockdown.Game
         {
             GameObject obj = PhotonNetwork.Instantiate(_blueprintPrefab.name, pos, Quaternion.identity, 0);
             var entity = obj.GetComponent<TEntity>();
-            _managedObjects.Add(entity);
             return entity;
+        }
+
+        public void RegisterEntity(TEntity entity)
+        {
+            _managedObjects.Add(entity);
+        }
+
+        public void DeRegisterEntity(TEntity entity)
+        {
+            _managedObjects.Remove(entity);
         }
 
         protected virtual void OnInit()

@@ -1,4 +1,4 @@
-namespace Lockdown.Game.Entity
+namespace Lockdown.Game.Entities
 {
     /// <summary>
     /// A network player is a copy of a local player, except it is on other player's PCs,

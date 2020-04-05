@@ -1,15 +1,10 @@
-using Lockdown.Game.Entity;
+using Lockdown.Game.Entities;
 using UnityEngine;
 
 namespace Lockdown.Game
 {
-    public class EnemyManagerModule : EntityManagementModule<EnemyManagerModule, Enemy>
+    public class TribesmanManagerModule : EntityManagementModule<TribesmanManagerModule, Tribesman>
     {
-        protected override void OnInit()
-        {
-            base.OnInit();
-
-            StartSpawnRepeating(2, () => Random.insideUnitCircle.normalized * 10);
-        }
+        
     }
 }

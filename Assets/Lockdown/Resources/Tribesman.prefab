@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5435571661374191182}
   - component: {fileID: 3374981424703341966}
   m_Layer: 10
-  m_Name: EnemyDot
+  m_Name: Tribesman
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -173,3 +173,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _body: {fileID: 5435571661374191182}
+  _spriteRenderer: {fileID: 5435571661374191178}

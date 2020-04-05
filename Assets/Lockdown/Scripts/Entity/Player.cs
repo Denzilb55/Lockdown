@@ -1,7 +1,7 @@
 using Photon.Pun;
 using UnityEngine;
 
-namespace Lockdown.Game.Entity
+namespace Lockdown.Game.Entities
 {
     /// <summary>
     /// The Player class represents a base Entity with player related functionality. It is

@@ -1,15 +1,15 @@
-using Lockdown.Game.Entity;
-using Lockdown.Game.Tribe;
+using Lockdown.Game.Entities;
+using Lockdown.Game.Tribes;
 using Photon.Pun;
 using UnityEngine;
-using NetworkPlayer = Lockdown.Game.Entity.NetworkPlayer;
+using NetworkPlayer = Lockdown.Game.Entities.NetworkPlayer;
 
 namespace Lockdown.Game
 {
     /// <summary>
     /// The Game Manager is where it all happens.
     /// </summary>
-    public class GameManager : MonoBehaviour
+    public class GameManager : MonoBehaviourPunCallbacks
     {
         [SerializeField]
         private NetworkPlayer _playerPrefab;
@@ -21,7 +21,11 @@ namespace Lockdown.Game
         private BaseBuilding _basePrefab;
         
         [SerializeField]
-        private Enemy _enemyPrefab;
+        private Tribesman _enemyPrefab;
+
+        private PhotonView _photonView;
+        
+        public GameObject localPlayer;
 
         
         
@@ -30,7 +34,7 @@ namespace Lockdown.Game
 
             NetworkManager.Instance.OnReady += () =>
             {
-                GameObject localPlayer = PhotonNetwork.Instantiate(_playerPrefab.name, new Vector3(Random.Range(-3, 3),Random.Range(-3, 3),0f), Quaternion.identity, 0);
+                localPlayer = PhotonNetwork.Instantiate(_playerPrefab.name, new Vector3(Random.Range(-3, 3),Random.Range(-3, 3),0f), Quaternion.identity, 0);
                 Debug.Log("Instantiated Player (You)");
                 
                 // Remove the network player component, these are for network player instances
@@ -41,11 +45,29 @@ namespace Lockdown.Game
                 
                 FoodModule.Instance.Init(_foodPrefab);
                 BaseModule.Instance.Init(_basePrefab);
-                EnemyManagerModule.Instance.Init(_enemyPrefab);
+                TribesmanManagerModule.Instance.Init(_enemyPrefab);
 
-                TribeManagerModule.Instance.CreateManagedObject();
+                TribeManagerModule.Instance.CreateMainTribe();
+                
+                _photonView = PhotonView.Get(this);
+                _photonView.RPC(nameof(CreateOpposingTribe), RpcTarget.OthersBuffered);
+                
+                
+                InvokeRepeating(nameof(SpawnMyTribesman), 2, 2);
+                
             };
 
+        }
+
+        void SpawnMyTribesman()
+        {
+            TribeManagerModule.Instance.MainTribe.SpawnTribesman(localPlayer.transform.position);
+        }
+
+        [PunRPC]
+        public void CreateOpposingTribe()
+        {
+            TribeManagerModule.Instance.CreateManagedObject();
         }
         
     }

@@ -48,8 +48,6 @@ namespace Lockdown.Game
         private void Start()
         {
 
-            
-            
             NetworkManager.Instance.OnReady += () =>
             {
                 
@@ -72,16 +70,35 @@ namespace Lockdown.Game
 
         private void Update()
         {
-            if (_gameState == GameState.PlaceBase)
+
+            switch (_gameState)
             {
-                if (Input.GetMouseButtonDown(0))
-                {
-                    Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    TribeManagerModule.Instance.MainTribe.SpawnBuilding(pos);
-                    _gameState = GameState.Playing;
-                    _uiManager.HideText();
-                }
-                
+                case GameState.PlaceBase:
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                        TribeManagerModule.Instance.MainTribe.SpawnBuilding(pos);
+                        _gameState = GameState.Playing;
+                        _uiManager.HideText();
+                    }
+                    break;
+
+                case GameState.Playing:
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    RaycastHit2D hit = Physics2D.GetRayIntersection(ray, Mathf.Infinity);
+
+                    if (hit.collider != null)
+                    {
+                        Tribesman tribesman = hit.collider.GetComponent<Tribesman>();
+
+                        if (tribesman != null && !tribesman.tribe.IsMainTribe)
+                        {
+                            tribesman.Smite();
+                        }
+                    }
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 

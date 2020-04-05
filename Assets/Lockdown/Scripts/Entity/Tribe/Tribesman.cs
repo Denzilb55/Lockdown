@@ -141,5 +141,10 @@ namespace Lockdown.Game.Entities
             }
 
         }
+
+        public void Smite()
+        {
+            NetworkDestroy();
+        }
     }
 }

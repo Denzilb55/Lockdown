@@ -25,16 +25,15 @@ namespace Lockdown.Game
             _blueprintPrefab = prefab;
             // Randomly spawn food every 2 seconds
             
-
             OnInit();
         }
         
-        public TEntity SpawnEntity()
+        public new TEntity CreateManagedObject()
         {
-            return SpawnEntity(Vector2.zero);
+            return CreateManagedObject(Vector2.zero);
         }
-
-        public TEntity SpawnEntity(Vector2 pos)
+        
+        public TEntity CreateManagedObject(Vector2 pos)
         {
             GameObject obj = PhotonNetwork.Instantiate(_blueprintPrefab.name, pos, Quaternion.identity, 0);
             var entity = obj.GetComponent<TEntity>();
@@ -57,7 +56,7 @@ namespace Lockdown.Game
         {
             while (true)
             {
-                SpawnEntity(nextPosition());
+                CreateManagedObject(nextPosition());
                 yield return new WaitForSeconds(delay);
             }
         }

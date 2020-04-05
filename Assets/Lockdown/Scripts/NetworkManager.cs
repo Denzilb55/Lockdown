@@ -7,28 +7,19 @@ namespace Lockdown.Game
 {
     
     /// <summary>
-    /// The Network Module class is a singleton which extends Photon Unity Networking callbacks
+    /// The Network Manager class is a singleton which extends Photon Unity Networking callbacks
     /// to handle networking for this game.
     /// </summary>
-    public class NetworkModule : MonoBehaviourPunCallbacks
+    public class NetworkManager : MonoBehaviourPunCallbacks
     {
-        private static NetworkModule _instance;
-        public static NetworkModule Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    // Instantiate a game object in the scene for the network module
-                    GameObject networkModuleObj = new GameObject();
-                    _instance = networkModuleObj.AddComponent<NetworkModule>();
-                }
+        public static NetworkManager Instance;
 
-                return _instance;
-            }
-        }
-        
         public event Action OnReady;
+
+        private void Awake()
+        {
+            Instance = this;
+        }
 
         // Start is called before the first frame update
         void Start()

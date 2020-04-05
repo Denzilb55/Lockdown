@@ -11,7 +11,7 @@ namespace Lockdown.Game
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                SpawnEntity();
+                CreateManagedObject();
             }
         }
         

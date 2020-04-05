@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using Lockdown.Game.Entity;
+using Lockdown.Game.Tribe;
 using Photon.Pun;
 using UnityEngine;
 using NetworkPlayer = Lockdown.Game.Entity.NetworkPlayer;
@@ -25,10 +25,10 @@ namespace Lockdown.Game
 
         
         
-        private void Awake()
+        private void Start()
         {
 
-            NetworkModule.Instance.OnReady += () =>
+            NetworkManager.Instance.OnReady += () =>
             {
                 GameObject localPlayer = PhotonNetwork.Instantiate(_playerPrefab.name, new Vector3(Random.Range(-3, 3),Random.Range(-3, 3),0f), Quaternion.identity, 0);
                 Debug.Log("Instantiated Player (You)");
@@ -42,7 +42,8 @@ namespace Lockdown.Game
                 FoodModule.Instance.Init(_foodPrefab);
                 BaseModule.Instance.Init(_basePrefab);
                 EnemyManagerModule.Instance.Init(_enemyPrefab);
-                FoodModule.Instance.Init(_foodPrefab);
+
+                TribeManagerModule.Instance.CreateManagedObject();
             };
 
         }

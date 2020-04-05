@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Photon.Pun;
+﻿using Photon.Pun;
 using UnityEngine;
 
 namespace Lockdown.Game.Entity
@@ -22,21 +19,10 @@ namespace Lockdown.Game.Entity
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                Vector2 delta = BaseModule.Instance.Base.transform.position - transform.position;
+                Vector2 delta = BaseModule.Instance.GetEntity(0).transform.position - transform.position;
                 _body.velocity = delta.normalized * 0.8f;
             }
         }
-        
-        [PunRPC]
-        public void NetworkDestroy()
-        {
-            PhotonView photonView = PhotonView.Get(this);
-            photonView.RPC(nameof(_Destroy), RpcTarget.All);
-        }
-        
-        public void _Destroy()
-        {
-            Destroy(gameObject);
-        }
+
     }
 }

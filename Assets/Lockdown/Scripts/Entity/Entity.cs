@@ -1,4 +1,5 @@
 using System;
+using Photon.Pun;
 using UnityEngine;
 
 
@@ -9,6 +10,16 @@ namespace Lockdown.Game.Entity
     /// </summary>
     public abstract class Entity : MonoBehaviour
     {
+        public void NetworkDestroy()
+        {
+            PhotonView photonView = PhotonView.Get(this);
+            photonView.RPC(nameof(_Destroy), RpcTarget.All);
+        }
         
+        [PunRPC]
+        public void _Destroy()
+        {
+            Destroy(gameObject);
+        }
     }
 }

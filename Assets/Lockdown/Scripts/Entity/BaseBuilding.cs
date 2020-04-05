@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Lockdown.Game.Entity
 {
-    public class BaseBuilding : MonoBehaviour
+    public class BaseBuilding : Entity
     {
         // Start is called before the first frame update
         void Start()

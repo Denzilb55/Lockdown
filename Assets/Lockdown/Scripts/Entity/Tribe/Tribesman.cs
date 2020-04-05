@@ -1,4 +1,5 @@
-﻿using Lockdown.Game.Tribes;
+﻿using System.Linq;
+using Lockdown.Game.Tribes;
 using Photon.Pun;
 using UnityEngine;
 
@@ -48,24 +49,21 @@ namespace Lockdown.Game.Entities
 
 
                 Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, 12);
+                Collider2D col = cols[Random.Range(0, cols.Length)];
 
-                foreach (var col in cols)
+                Food food = col.transform.GetComponent<Food>();
+                if (food != null)
                 {
-                    
-                    Food food = col.transform.GetComponent<Food>();
-                    if (food != null)
+                    // consume food
+                    _target = col.transform;
+                }
+                else
+                {
+                    Tribesman tribesman = col.transform.GetComponent<Tribesman>();
+                    // check if collided object is enemy, and destroy
+                    if (tribesman!= null && tribesman.tribe != tribe)
                     {
-                        // consume food
-                        _target = col.transform;
-                    }
-                    else
-                    {
-                        Tribesman tribesman = col.transform.GetComponent<Tribesman>();
-                        // check if collided object is enemy, and destroy
-                        if (tribesman!= null && tribesman.tribe != tribe)
-                        {
-                            _target = tribesman.transform;
-                        }
+                        _target = tribesman.transform;
                     }
                 }
                 

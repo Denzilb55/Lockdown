@@ -13,6 +13,8 @@ namespace Lockdown.Game.Entities
         private Transform _target;
 
 
+        private float searchRange = 3;
+
         private void OnDestroy()
         {
             TribesmanManagerModule.Instance.DeRegisterEntity(this);
@@ -48,7 +50,13 @@ namespace Lockdown.Game.Entities
                 }*/
 
 
-                Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, 12);
+                Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, searchRange);
+
+                if (cols.Length == 0)
+                {
+                    searchRange++;
+                    return;
+                }
                 Collider2D col = cols[Random.Range(0, cols.Length)];
 
                 Food food = col.transform.GetComponent<Food>();
@@ -87,15 +95,21 @@ namespace Lockdown.Game.Entities
 
         protected override void OnSetTribe()
         {
-           gameObject.SetActive(true);
-           enabled = true;
-
+            gameObject.SetActive(true);
+            enabled = true;
+            searchRange = 3;
 
         }
 
+        private void ForgetTarrget()
+        {
+            _target = null;
+            searchRange = 3;
+        }
+        
         private void OnCollisionEnter2D(Collision2D other)
         {
-            if (!tribe.IsMainTribe || tribe == null)
+            if (tribe == null || !tribe.IsMainTribe)
             {
                return;
             }
@@ -108,16 +122,21 @@ namespace Lockdown.Game.Entities
                 // consume food
                 food.NetworkDestroy();
                 tribe.CollectFood();
+                ForgetTarrget();
             }
             else
             {
                            
                 Tribesman tribesman = other.transform.GetComponent<Tribesman>();
                 // check if collided object is enemy, and destroy
-                if (tribesman != null && tribesman.tribe != tribe)
+                if (tribesman != null && tribesman.transform == _target)
                 {
                     if (Random.Range(0, 10) == 0)
+                    {
                         tribesman.NetworkDestroy();
+                        ForgetTarrget();
+                    }
+                        
                 } 
             }
 

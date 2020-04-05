@@ -11,6 +11,12 @@ namespace Lockdown.Game.Tribes
         
         public bool IsMainTribe = false;
 
+        public int foodCount
+        {
+            get;
+            private set;
+        }
+
         public Color color
         {
             get;
@@ -19,7 +25,17 @@ namespace Lockdown.Game.Tribes
 
         public Tribe()
         {
-            
+            foodCount = 30;
+        }
+
+        public void CollectFood(int count = 1)
+        {
+            foodCount += count;
+        }
+
+        public void ConsumeFood(int count = 1)
+        {
+            foodCount -= count;
         }
 
         public void Initialise(int id, string name, Color color)

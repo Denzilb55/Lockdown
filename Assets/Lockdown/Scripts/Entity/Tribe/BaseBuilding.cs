@@ -22,7 +22,12 @@ namespace Lockdown.Game.Entities
 
         void SpawnMyTribesman()
         {
-            Tribesman tribesman = tribe.SpawnTribesman(transform.position);
+            if (tribe.foodCount >= 3)
+            {
+                Tribesman tribesman = tribe.SpawnTribesman(transform.position);
+                tribe.ConsumeFood(3);
+            }
+            
         }
 
         protected override void OnSetTribe()

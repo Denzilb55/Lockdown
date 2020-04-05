@@ -77,17 +77,13 @@ namespace Lockdown.Game
                     Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     TribeManagerModule.Instance.MainTribe.SpawnBuilding(pos);
                     _gameState = GameState.Playing;
-                    InvokeRepeating(nameof(SpawnMyTribesman), 2, 2);
                     _uiManager.HideText();
                 }
                 
             }
         }
 
-        void SpawnMyTribesman(Vector2 pos)
-        {
-            TribeManagerModule.Instance.MainTribe.SpawnTribesman(pos);
-        }
+
 
         [PunRPC]
         public void CreateOpposingTribe()

@@ -18,18 +18,19 @@ namespace Lockdown.Game.Entities
         {
             BaseModule.Instance.RegisterEntity(this);
         }
+        
 
-        private void Start()
+        void SpawnMyTribesman()
+        {
+            Tribesman tribesman = tribe.SpawnTribesman(transform.position);
+        }
+
+        protected override void OnSetTribe()
         {
             if (tribe == TribeManagerModule.Instance.MainTribe)
             {
                 InvokeRepeating(nameof(SpawnMyTribesman), 2, 2);
             }
-        }
-
-        void SpawnMyTribesman()
-        {
-            tribe.SpawnTribesman(transform.position);
         }
     }
 }

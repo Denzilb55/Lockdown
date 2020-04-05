@@ -9,7 +9,7 @@ namespace Lockdown.Game.Tribes
 
         public string tribeName;
         
-        public bool IsMainTribe;
+        public bool IsMainTribe = false;
 
         public Color color
         {
@@ -17,7 +17,12 @@ namespace Lockdown.Game.Tribes
             private set;
         }
 
-        public Tribe(int id, string name, Color color)
+        public Tribe()
+        {
+            
+        }
+
+        public void Initialise(int id, string name, Color color)
         {
             tribeId = id;
             tribeName = name;

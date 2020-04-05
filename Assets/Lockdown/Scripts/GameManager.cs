@@ -48,19 +48,21 @@ namespace Lockdown.Game
         private void Start()
         {
 
+            
+            
             NetworkManager.Instance.OnReady += () =>
             {
+                
+                Debug.Log(PhotonNetwork.LocalPlayer.ActorNumber);
                // localPlayer = PhotonNetwork.Instantiate(_playerPrefab.name, new Vector3(Random.Range(-3, 3),Random.Range(-3, 3),0f), Quaternion.identity, 0);
                 Debug.Log("Instantiated Player (You)");
                 
                 FoodModule.Instance.Init(_foodPrefab);
                 BaseModule.Instance.Init(_basePrefab);
                 TribesmanManagerModule.Instance.Init(_enemyPrefab);
-
-                TribeManagerModule.Instance.CreateMainTribe();
                 
                 _photonView = PhotonView.Get(this);
-                _photonView.RPC(nameof(CreateOpposingTribe), RpcTarget.OthersBuffered);
+                _photonView.RPC(nameof(CreateOpposingTribe), RpcTarget.AllBufferedViaServer, PhotonNetwork.LocalPlayer.ActorNumber-1);
                 
                 
                 _uiManager.ShowText("Place your base!");
@@ -86,9 +88,9 @@ namespace Lockdown.Game
 
 
         [PunRPC]
-        public void CreateOpposingTribe()
+        public void CreateOpposingTribe(int tribeId)
         {
-            TribeManagerModule.Instance.CreateManagedObject();
+            TribeManagerModule.Instance.CreateManagedObject(tribeId);
         }
         
     }

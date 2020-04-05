@@ -9,8 +9,6 @@ namespace Lockdown.Game.Entities
         [SerializeField]
         private Rigidbody2D _body;
 
-        
-
 
         private void OnDestroy()
         {
@@ -33,7 +31,7 @@ namespace Lockdown.Game.Entities
                 {
                     if (baseBuilding.tribe != TribeManagerModule.Instance.MainTribe)
                     {
-                        Vector2 delta = BaseModule.Instance.GetObject(0).transform.position - transform.position;
+                        Vector2 delta = baseBuilding.transform.position - transform.position;
                         _body.velocity = delta.normalized * 0.8f;
                         break;
                     }
@@ -41,7 +39,10 @@ namespace Lockdown.Game.Entities
             }
         }
 
-        
+        protected override void OnSetTribe()
+        {
+           gameObject.SetActive(true);
+        }
 
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
 namespace Lockdown.Game.Tribes
@@ -11,7 +12,7 @@ namespace Lockdown.Game.Tribes
         public Tribe MainTribe;
         
         
-        private Stack<Color> _colors = new Stack<Color>(new List<Color>
+        private Queue<Color> _colors = new Queue<Color>(new List<Color>
         {
             Color.red,
             Color.blue,
@@ -22,23 +23,33 @@ namespace Lockdown.Game.Tribes
 
         private Color GetNextColor()
         {
-            return _colors.Pop();
+            return _colors.Dequeue();
         }
         
-        public new Tribe CreateManagedObject()
+        public Tribe CreateManagedObject(int tribeId)
         {
-            Tribe obj = new Tribe(tribeCount, "default", GetNextColor());
+            Tribe tribe = new Tribe();
+            tribe.Initialise(tribeCount, "default", GetNextColor());
             tribeCount++;
-            obj.IsMainTribe = false;
-            _managedObjects.Add(obj);
-            return obj;
-        }
-        
-        public Tribe CreateMainTribe()
-        {
-            MainTribe = CreateManagedObject();
-            MainTribe.IsMainTribe = true;
-            return MainTribe;
+            
+
+            if (_managedObjects.Count <= tribeId)
+            {
+                for (int i = _managedObjects.Count; i <= tribeId; i++)
+                {
+                    _managedObjects.Add(null);
+                }
+            }
+
+            _managedObjects[tribeId] = tribe;
+            
+            if (tribeId + 1 == PhotonNetwork.LocalPlayer.ActorNumber)
+            {
+                MainTribe = tribe;
+                tribe.IsMainTribe = true;
+            }
+            
+            return tribe;
         }
     }
 }

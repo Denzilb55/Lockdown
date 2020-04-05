@@ -5,13 +5,13 @@ using UnityEngine;
 
 namespace Lockdown.Game
 {
-    public class FoodModule : ManagementModule<FoodModule, Food>
+    public class FoodModule : EntityManagementModule<FoodModule, Food>
     {
         public void DestroyFood(Food food)
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                _managedEntities.Remove(food);
+                _managedObjects.Remove(food);
             }
         }
         

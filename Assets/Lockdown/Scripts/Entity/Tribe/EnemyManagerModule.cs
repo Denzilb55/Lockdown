@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Lockdown.Game
 {
-    public class EnemyManagerModule : ManagementModule<EnemyManagerModule, Enemy>
+    public class EnemyManagerModule : EntityManagementModule<EnemyManagerModule, Enemy>
     {
         protected override void OnInit()
         {

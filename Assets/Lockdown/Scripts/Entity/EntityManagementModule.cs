@@ -11,18 +11,14 @@ namespace Lockdown.Game
     /// </summary>
     /// <typeparam name="TModule"></typeparam>
     /// <typeparam name="TEntity"></typeparam>
-    public class ManagementModule<TModule, TEntity> : SingletonModule<TModule>, IEnumerable<TEntity> 
-        where TEntity : Entity.Entity where TModule : ManagementModule<TModule, TEntity>
+    public class EntityManagementModule<TModule, TEntity> : ManagementModule<TModule, TEntity>
+        where TEntity : Entity.Entity where TModule : EntityManagementModule<TModule, TEntity>
     {
-        protected List<TEntity> _managedEntities = new List<TEntity>();
-
         /// <summary>
         /// The prefab that will be duplicated when new entities are instantiated.
         /// </summary>
         protected TEntity _blueprintPrefab;
 
-        private int _count;
-        private int _count1;
 
         public void Init(TEntity prefab)
         {
@@ -42,7 +38,7 @@ namespace Lockdown.Game
         {
             GameObject obj = PhotonNetwork.Instantiate(_blueprintPrefab.name, pos, Quaternion.identity, 0);
             var entity = obj.GetComponent<TEntity>();
-            _managedEntities.Add(entity);
+            _managedObjects.Add(entity);
             return entity;
         }
 
@@ -50,23 +46,7 @@ namespace Lockdown.Game
         {
             
         }
-
-        public int EntityCount => _managedEntities.Count;
-
-        public TEntity GetEntity(int index)
-        {
-            return _managedEntities[index];
-        }
-
-        public IEnumerator<TEntity> GetEnumerator()
-        {
-            return _managedEntities.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        
 
         protected void StartSpawnRepeating(float delay, Func<Vector2> nextPosition)
         {

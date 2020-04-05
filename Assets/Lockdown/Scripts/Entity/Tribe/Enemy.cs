@@ -19,7 +19,7 @@ namespace Lockdown.Game.Entity
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                Vector2 delta = BaseModule.Instance.GetEntity(0).transform.position - transform.position;
+                Vector2 delta = BaseModule.Instance.GetObject(0).transform.position - transform.position;
                 _body.velocity = delta.normalized * 0.8f;
             }
         }

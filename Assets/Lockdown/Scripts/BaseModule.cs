@@ -4,7 +4,7 @@ using Photon.Pun;
 
 namespace Lockdown.Game
 {
-    public class BaseModule : ManagementModule<BaseModule, BaseBuilding>
+    public class BaseModule : EntityManagementModule<BaseModule, BaseBuilding>
     {
         
         protected override void OnInit()

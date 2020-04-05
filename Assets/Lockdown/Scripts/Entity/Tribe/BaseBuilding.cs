@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Lockdown.Game.Entities
 {
-    public class BaseBuilding : Entity
+    public class BaseBuilding : TribeEntity
     {
         private void OnDestroy()
         {

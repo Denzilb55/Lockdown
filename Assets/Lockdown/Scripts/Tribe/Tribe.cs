@@ -30,6 +30,13 @@ namespace Lockdown.Game.Tribes
             tribesman.SetTribe(this);
             return tribesman;
         }
+
+        public BaseBuilding SpawnBuilding(Vector2 pos)
+        {
+            var tribesman = BaseModule.Instance.CreateManagedObject(pos);
+            tribesman.SetTribe(this);
+            return tribesman;
+        }
         
     }
 }

@@ -4,22 +4,14 @@ using UnityEngine;
 
 namespace Lockdown.Game.Entities
 {
-    public class Tribesman : Entity
+    public class Tribesman : TribeEntity
     {
         [SerializeField]
         private Rigidbody2D _body;
 
-        [SerializeField]
-        private SpriteRenderer _spriteRenderer;
-        
         
 
-        public Tribe tribe
-        {
-            get;
-            private set;
-        }
-        
+
         private void OnDestroy()
         {
             TribesmanManagerModule.Instance.DeRegisterEntity(this);
@@ -37,19 +29,19 @@ namespace Lockdown.Game.Entities
             // ensures this networked instance is only moved by owner
             if (tribe != null && tribe.IsMainTribe)
             {
-                if (BaseModule.Instance.Count > 0)
+                foreach (var baseBuilding in BaseModule.Instance)
                 {
-                    Vector2 delta = BaseModule.Instance.GetObject(0).transform.position - transform.position;
-                    _body.velocity = delta.normalized * 0.8f;
+                    if (baseBuilding.tribe != TribeManagerModule.Instance.MainTribe)
+                    {
+                        Vector2 delta = BaseModule.Instance.GetObject(0).transform.position - transform.position;
+                        _body.velocity = delta.normalized * 0.8f;
+                        break;
+                    }
                 }
             }
         }
 
-        public void SetTribe(Tribe tribe)
-        {
-            this.tribe = tribe;
-            _spriteRenderer.color = tribe.color;
-        }
+        
 
     }
 }

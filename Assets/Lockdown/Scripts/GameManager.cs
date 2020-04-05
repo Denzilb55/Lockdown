@@ -1,16 +1,30 @@
+using System;
 using Lockdown.Game.Entities;
 using Lockdown.Game.Tribes;
 using Photon.Pun;
 using UnityEngine;
 using NetworkPlayer = Lockdown.Game.Entities.NetworkPlayer;
+using Random = UnityEngine.Random;
 
 namespace Lockdown.Game
 {
+
+    public enum GameState
+    {
+        PlaceBase,
+        Playing
+    }
+    
     /// <summary>
     /// The Game Manager is where it all happens.
     /// </summary>
     public class GameManager : MonoBehaviourPunCallbacks
     {
+        [Header("Managers")] 
+        [SerializeField] private UiManager _uiManager;
+        
+        [Header("Prefabs")]
+        
         [SerializeField]
         private NetworkPlayer _playerPrefab;
         
@@ -22,10 +36,12 @@ namespace Lockdown.Game
         
         [SerializeField]
         private Tribesman _enemyPrefab;
+        
+        
 
         private PhotonView _photonView;
-        
-        public GameObject localPlayer;
+
+        private GameState _gameState = GameState.PlaceBase;
 
         
         
@@ -34,14 +50,8 @@ namespace Lockdown.Game
 
             NetworkManager.Instance.OnReady += () =>
             {
-                localPlayer = PhotonNetwork.Instantiate(_playerPrefab.name, new Vector3(Random.Range(-3, 3),Random.Range(-3, 3),0f), Quaternion.identity, 0);
+               // localPlayer = PhotonNetwork.Instantiate(_playerPrefab.name, new Vector3(Random.Range(-3, 3),Random.Range(-3, 3),0f), Quaternion.identity, 0);
                 Debug.Log("Instantiated Player (You)");
-                
-                // Remove the network player component, these are for network player instances
-                Destroy(localPlayer.GetComponent<NetworkPlayer>());
-                
-                // Add the local player component so that you can control it
-                localPlayer.AddComponent<LocalPlayer>();
                 
                 FoodModule.Instance.Init(_foodPrefab);
                 BaseModule.Instance.Init(_basePrefab);
@@ -53,15 +63,30 @@ namespace Lockdown.Game
                 _photonView.RPC(nameof(CreateOpposingTribe), RpcTarget.OthersBuffered);
                 
                 
-                InvokeRepeating(nameof(SpawnMyTribesman), 2, 2);
-                
+                _uiManager.ShowText("Place your base!");
             };
 
         }
 
-        void SpawnMyTribesman()
+        private void Update()
         {
-            TribeManagerModule.Instance.MainTribe.SpawnTribesman(localPlayer.transform.position);
+            if (_gameState == GameState.PlaceBase)
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    TribeManagerModule.Instance.MainTribe.SpawnBuilding(pos);
+                    _gameState = GameState.Playing;
+                    InvokeRepeating(nameof(SpawnMyTribesman), 2, 2);
+                    _uiManager.HideText();
+                }
+                
+            }
+        }
+
+        void SpawnMyTribesman(Vector2 pos)
+        {
+            TribeManagerModule.Instance.MainTribe.SpawnTribesman(pos);
         }
 
         [PunRPC]

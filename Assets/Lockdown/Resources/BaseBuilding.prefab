@@ -156,6 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b059de6ead4cdbfa8763a4d1f6120f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spriteRenderer: {fileID: 0}
 --- !u!61 &4209928642204975695
 BoxCollider2D:
   m_ObjectHideFlags: 0

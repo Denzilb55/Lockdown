@@ -9,10 +9,7 @@ namespace Lockdown.Game
         
         protected override void OnInit()
         {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                CreateManagedObject();
-            }
+      
         }
         
         

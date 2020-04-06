@@ -61,11 +61,17 @@ namespace Lockdown.Game
                 
                 _photonView = PhotonView.Get(this);
                 _photonView.RPC(nameof(CreateOpposingTribe), RpcTarget.AllBufferedViaServer, PhotonNetwork.LocalPlayer.ActorNumber-1);
-                
-                
-                _uiManager.ShowText("Place your base!");
+
+
+                StartPlacingBase();
             };
 
+        }
+
+        private void StartPlacingBase()
+        {
+            _uiManager.ShowText("Place your base!");
+            _gameState = GameState.PlaceBase;
         }
 
         private void Update()
@@ -81,6 +87,13 @@ namespace Lockdown.Game
                         _gameState = GameState.Playing;
                         _uiManager.HideText();
                     }
+
+                    if (Input.GetKeyDown(KeyCode.Escape))
+                    {
+                        _gameState = GameState.Playing;
+                        _uiManager.HideText();
+                    }
+                    
                     break;
 
                 case GameState.Playing:
@@ -96,6 +109,12 @@ namespace Lockdown.Game
                             tribesman.Smite();
                         }
                     }
+
+                    if (Input.GetKeyDown(KeyCode.B))
+                    {
+                        StartPlacingBase();
+                    }
+                    
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

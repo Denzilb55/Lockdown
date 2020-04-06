@@ -40,8 +40,8 @@ namespace Lockdown.Game.Entities
         {
             if (tribe == TribeManagerModule.Instance.MainTribe)
             {
-                InvokeRepeating(nameof(SpawnMyTribesman), 2, 2);
-                InvokeRepeating(nameof(GrowCrops), 15, 15);
+                InvokeRepeating(nameof(SpawnMyTribesman), 5, 5);
+                InvokeRepeating(nameof(GrowCrops), 10, 10);
             }
         }
     }

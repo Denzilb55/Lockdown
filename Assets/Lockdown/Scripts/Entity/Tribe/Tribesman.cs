@@ -116,7 +116,7 @@ namespace Lockdown.Game.Entities
             
             Food food = other.transform.GetComponent<Food>();
             // check if collided object is food, and consume
-            Debug.Log("Collide: " + other);
+
             if (food != null)
             {
                 // consume food
